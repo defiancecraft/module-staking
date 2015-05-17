@@ -82,9 +82,11 @@ public class StakingState implements StakeState {
 		getAlpha().setHealth(getAlpha().getMaxHealth());
 		getAlpha().setFoodLevel(20);
 		getAlpha().setFireTicks(0);
+		getAlpha().getActivePotionEffects().clear();
 		getBeta().setHealth(getBeta().getMaxHealth());
 		getBeta().setFoodLevel(20);
 		getBeta().setFireTicks(0);
+		getBeta().getActivePotionEffects().clear();
 		
 		// Store inventories
 		this.alphaInventoryArmor = getAlpha().getInventory().getArmorContents();
