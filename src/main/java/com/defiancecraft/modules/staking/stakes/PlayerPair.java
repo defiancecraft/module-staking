@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.defiancecraft.core.util.Lang;
 import com.defiancecraft.modules.staking.Staking;
 import com.defiancecraft.modules.staking.util.FailureLog;
-import com.defiancecraft.modules.staking.util.FailureLog.Level;
+import com.defiancecraft.modules.staking.util.Level;
 
 /**
  * Represents a pair of players entering a stake.

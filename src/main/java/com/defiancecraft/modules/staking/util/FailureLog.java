@@ -41,13 +41,4 @@ public class FailureLog {
 		
 	}
 	
-	public static enum Level {
-		
-		INFO,
-		WARN,
-		SEVERE,
-		CRITICAL;
-		
-	}
-	
 }
