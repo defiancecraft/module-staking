@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -26,8 +27,8 @@ import com.defiancecraft.modules.staking.stakes.PlayerPair;
 import com.defiancecraft.modules.staking.stakes.StakeManager;
 import com.defiancecraft.modules.staking.stakes.StakeState;
 import com.defiancecraft.modules.staking.util.FailureLog;
-import com.defiancecraft.modules.staking.util.FailureLog.Level;
 import com.defiancecraft.modules.staking.util.ItemStackUtils;
+import com.defiancecraft.modules.staking.util.Level;
 import com.defiancecraft.modules.staking.util.RawMessaging;
 import com.defiancecraft.modules.staking.util.StringBuilderOutputStream;
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
@@ -82,11 +83,13 @@ public class StakingState implements StakeState {
 		getAlpha().setHealth(getAlpha().getMaxHealth());
 		getAlpha().setFoodLevel(20);
 		getAlpha().setFireTicks(0);
-		getAlpha().getActivePotionEffects().clear();
+		for (PotionEffect e : getAlpha().getActivePotionEffects())
+			getAlpha().removePotionEffect(e.getType());
 		getBeta().setHealth(getBeta().getMaxHealth());
 		getBeta().setFoodLevel(20);
 		getBeta().setFireTicks(0);
-		getBeta().getActivePotionEffects().clear();
+		for (PotionEffect e : getBeta().getActivePotionEffects())
+			getBeta().removePotionEffect(e.getType());
 		
 		// Store inventories
 		this.alphaInventoryArmor = getAlpha().getInventory().getArmorContents();
