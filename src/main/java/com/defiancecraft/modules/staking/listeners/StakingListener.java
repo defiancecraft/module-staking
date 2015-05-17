@@ -48,6 +48,12 @@ public class StakingListener implements Listener {
 				return;
 		
 		Player p = (Player) e.getEntity();
+		
+		if (((StakingState)man.getState(p)).isCountingDown()) {
+			e.setCancelled(true);
+			return;
+		}
+		
 		if (p.getHealth() - e.getFinalDamage() <= 0) {
 			
 			e.setCancelled(true);
