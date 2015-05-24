@@ -32,8 +32,14 @@ import com.sk89q.worldedit.bukkit.selections.Selection;
 public class AdminCommands {
 
 	private static Map<UUID, ArenaConfig> arenaSetups = new HashMap<UUID, ArenaConfig>();
+
+	private Staking plugin;
 	
-	public static boolean help(CommandSender sender, String[] args) {
+	public AdminCommands(Staking plugin) {
+		this.plugin = plugin;
+	}
+	
+	public boolean help(CommandSender sender, String[] args) {
 		
 		sender.sendMessage(ChatColor.BLUE + "Staking Help:\n" +
 				ChatColor.AQUA + "/staking help\n" +
@@ -45,7 +51,7 @@ public class AdminCommands {
 		
 	}
 	
-	public static boolean setArea(CommandSender sender, String[] args) {
+	public boolean setArea(CommandSender sender, String[] args) {
 		
 		if (!(sender instanceof Player))
 			return false;
@@ -67,7 +73,7 @@ public class AdminCommands {
 		
 		config.stakingArea = new SerialSelection(sel);
 		
-		if (Staking.saveConfiguration(config))
+		if (plugin.saveConfiguration(config))
 			sender.sendMessage(Lang.get(Staking.NAME, Staking.LANG_SAVE_SUCCESS));
 		else
 			sender.sendMessage(Lang.get(Staking.NAME, Staking.LANG_SAVE_FAILURE));
@@ -77,7 +83,7 @@ public class AdminCommands {
 		
 	}
 	
-	public static boolean arena(CommandSender sender, String[] args) {
+	public boolean arena(CommandSender sender, String[] args) {
 		
 		if (args.length < 1 || !args[0].matches("^a|ha|b|hb|region|spawn|hspawn|save$") || !(sender instanceof Player)) {
 			sender.sendMessage(ChatColor.BLUE + "Usage:\n" +
@@ -163,7 +169,7 @@ public class AdminCommands {
 
 				MainConfig config = Staking.getConfiguration();
 				config.arenas.add(arenaSetups.get(uuid));
-				Staking.saveConfiguration(config);
+				plugin.saveConfiguration(config);
 				
 				ArenaManager.addArena(arenaSetups.get(uuid));
 				arenaSetups.remove(uuid);
@@ -177,19 +183,19 @@ public class AdminCommands {
 		
 	}
 	
-	public static boolean respawn(CommandSender sender, String[] args) {
+	public boolean respawn(CommandSender sender, String[] args) {
 		
 		SerialLocation loc = new SerialLocation(((Player)sender).getLocation());
 		MainConfig config = Staking.getConfiguration();
 		config.respawnPoint = loc;
-		Staking.saveConfiguration(config);
+		plugin.saveConfiguration(config);
 		
 		sender.sendMessage(ChatColor.GREEN + "Saved respawn point!");
 		return true;
 		
 	}
 	
-	public static boolean addKit(CommandSender sender, String[] args) {
+	public boolean addKit(CommandSender sender, String[] args) {
 		
 		if (!(sender instanceof Player))
 			return false;
@@ -209,7 +215,7 @@ public class AdminCommands {
 		config.kitSelectionMenu.kits.add(kit);
 		
 		// Save config
-		Staking.saveConfiguration(config);
+		plugin.saveConfiguration(config);
 		
 		sender.sendMessage(ChatColor.GREEN + "Saved kit!");
 		

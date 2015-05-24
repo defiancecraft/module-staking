@@ -3,15 +3,11 @@ package com.defiancecraft.modules.staking;
 import java.io.IOException;
 
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import com.defiancecraft.core.DefianceCore;
 import com.defiancecraft.core.command.CommandRegistry;
 import com.defiancecraft.core.database.collections.Collection;
 import com.defiancecraft.core.menu.MenuListener;
-import com.defiancecraft.core.modules.Module;
-import com.defiancecraft.core.util.FileUtils;
-import com.defiancecraft.core.util.GsonUtils;
+import com.defiancecraft.core.modules.impl.JavaModule;
 import com.defiancecraft.core.util.Lang;
 import com.defiancecraft.modules.staking.commands.AdminCommands;
 import com.defiancecraft.modules.staking.commands.StakingCommands;
@@ -20,9 +16,8 @@ import com.defiancecraft.modules.staking.listeners.CancellationListener;
 import com.defiancecraft.modules.staking.listeners.StakingListener;
 import com.defiancecraft.modules.staking.stakes.ArenaManager;
 import com.defiancecraft.modules.staking.stakes.StakeManager;
-import com.google.gson.Gson;
 
-public class Staking extends JavaPlugin implements Module {
+public class Staking extends JavaModule {
 
 	public static final String NAME = "Staking";
 	public static final String LANG_NO_WORLDEDIT;
@@ -83,11 +78,12 @@ public class Staking extends JavaPlugin implements Module {
         pm.registerEvents(new StakingListener(manager), this);
         
         // Register admin commands
-        CommandRegistry.registerPlayerCommand(this, "staking", "defiancecraft.staking.help", AdminCommands::help);
-        CommandRegistry.registerPlayerSubCommand("staking", "setarea", "defiancecraft.staking.setarea", AdminCommands::setArea);
-        CommandRegistry.registerPlayerSubCommand("staking", "arena", "defiancecraft.staking.arena", AdminCommands::arena);
-        CommandRegistry.registerPlayerSubCommand("staking", "respawn", "defiancecraft.staking.respawn", AdminCommands::respawn);
-        CommandRegistry.registerPlayerSubCommand("staking", "addkit", "defiancecraft.staking.addkit", AdminCommands::addKit);
+        AdminCommands adminCmds = new AdminCommands(this);
+        CommandRegistry.registerPlayerCommand(this, "staking", "defiancecraft.staking.help", adminCmds::help);
+        CommandRegistry.registerPlayerSubCommand("staking", "setarea", "defiancecraft.staking.setarea", adminCmds::setArea);
+        CommandRegistry.registerPlayerSubCommand("staking", "arena", "defiancecraft.staking.arena", adminCmds::arena);
+        CommandRegistry.registerPlayerSubCommand("staking", "respawn", "defiancecraft.staking.respawn", adminCmds::respawn);
+        CommandRegistry.registerPlayerSubCommand("staking", "addkit", "defiancecraft.staking.addkit", adminCmds::addKit);
         
         // Register staking commands
         StakingCommands cmds = new StakingCommands(manager);
@@ -116,16 +112,9 @@ public class Staking extends JavaPlugin implements Module {
     	return config;
     }
     
-    public static boolean saveConfiguration(MainConfig config) {
-    	try {
-    		Staking.config = config;
-    		DefianceCore.getModuleConfig().configs.put(NAME, GsonUtils.toMap(new Gson().toJsonTree(config).getAsJsonObject()));
-    		DefianceCore.getModuleConfig().save(FileUtils.getSharedConfig("modules.json"));
-    		return true;
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    		return false;
-    	}
+    public boolean saveConfiguration(MainConfig config) {
+		Staking.config = config;
+		return super.saveConfig(config);
     }
     
     static {
