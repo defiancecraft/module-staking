@@ -103,9 +103,6 @@ public class ChooseItemsMenu extends Menu {
 		this.remoteAcceptOption = new AcceptOption(this, false);
 		this.addMenuOption(remoteAcceptOption, rows * 9 - 10);
 		
-		
-		// TODO add command to make arena
-		
 	}
 	
 	/* ------------------------------
@@ -384,8 +381,8 @@ public class ChooseItemsMenu extends Menu {
 		@Override
 		public boolean onClick(Player p, InventoryClickEvent event) {
 			
-			if (!event.getClick().equals(ClickType.LEFT)) { // TODO use lang
-				p.sendMessage(ChatColor.RED + "Please left click!"); // TODO send this?
+			if (!event.getClick().equals(ClickType.LEFT)) {
+				p.sendMessage(ChatColor.RED + "Please left click!");
 				return true;
 			}
 			

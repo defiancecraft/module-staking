@@ -116,9 +116,6 @@ public class ArenaQueueState implements StakeState {
 
 	@Override
 	public void destroy() {
-		
-		// TODO?
-		
 	}
 
 	@Override

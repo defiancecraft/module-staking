@@ -149,7 +149,6 @@ public class StakingState implements StakeState {
 		else
 			onShutdown();
 		
-		// TODO restore items
 		if (this.countdown != null)
 			this.countdown.cancel();
 		
