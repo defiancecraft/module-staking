@@ -28,7 +28,7 @@ public class FailureLog {
 		failure.append("\n");
 		
 		try {
-			OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(FileUtils.getLogFile("staking.log")));
+			OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(FileUtils.getLogFile("staking.log"), true));
 			out.append(failure.toString());
 			out.flush();
 			out.close();
