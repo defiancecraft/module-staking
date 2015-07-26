@@ -4,4 +4,4 @@ main: com.defiancecraft.modules.staking.Staking
 commands:
   staking:
   stake:
-  accept:
+  acceptstake:

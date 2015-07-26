@@ -50,7 +50,7 @@ public class AwaitingAcceptState implements StakeState {
 			return;
 		}
 			
-		RawMessaging.sendRawMessage(beta.get(), Lang.get(Staking.NAME, Staking.LANG_ACCEPT_STAKE, alpha.get().getName()), "/accept " + alpha.get().getName());
+		RawMessaging.sendRawMessage(beta.get(), Lang.get(Staking.NAME, Staking.LANG_ACCEPT_STAKE, alpha.get().getName()), "/acceptstake " + alpha.get().getName());
 		
 	}
 	

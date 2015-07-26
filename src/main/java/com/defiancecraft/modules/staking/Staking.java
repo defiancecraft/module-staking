@@ -88,7 +88,7 @@ public class Staking extends JavaModule {
         // Register staking commands
         StakingCommands cmds = new StakingCommands(manager);
         CommandRegistry.registerPlayerCommand(this, "stake", "defiancecraft.staking.stake", cmds::stake);
-        CommandRegistry.registerPlayerCommand(this, "accept", "defiancecraft.staking.accept", cmds::accept);
+        CommandRegistry.registerPlayerCommand(this, "acceptstake", "defiancecraft.staking.accept", cmds::accept);
 
     }
     
