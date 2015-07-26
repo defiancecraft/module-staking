@@ -5,6 +5,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 
@@ -60,6 +64,35 @@ public class StakingListener implements Listener {
 			((StakingState)man.getState(p)).onWin(p == man.getState(p).getAlpha() ? man.getState(p).getBeta() : man.getState(p).getAlpha());
 			
 		}
+		
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onInventoryClick(InventoryClickEvent e) {
+		
+		if (e.isCancelled()
+				|| !(e.getWhoClicked() instanceof Player)
+				|| !man.hasState((Player)e.getWhoClicked())
+				|| !(man.getState((Player)e.getWhoClicked()) instanceof StakingState)) 
+			return;
+		
+		// Cancel if they use the 4x4 crafting grid
+		if (e.getSlotType().equals(SlotType.CRAFTING))
+			e.setCancelled(true);
+		
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onInventoryDrag(InventoryDragEvent e) {
+		
+		if (e.isCancelled()
+				|| !(e.getWhoClicked() instanceof Player)
+				|| !man.hasState((Player)e.getWhoClicked())
+				|| !(man.getState((Player)e.getWhoClicked()) instanceof StakingState)) 
+			return;
+		
+		if (e.getInventory().getType().equals(InventoryType.CRAFTING))
+			e.setCancelled(true);
 		
 	}
 	
