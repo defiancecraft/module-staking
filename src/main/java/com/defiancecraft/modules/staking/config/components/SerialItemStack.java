@@ -19,6 +19,11 @@ public class SerialItemStack implements Cloneable {
 	public List<String> lore = new ArrayList<String>();
 	public List<String> enchants = new ArrayList<String>();
 	
+	/**
+	 * Only for config parsing - DO NOT USE
+	 */
+	public SerialItemStack() {}
+	
 	public SerialItemStack(ItemStack i) {
 		this.id = i.getType().name();
 		this.quantity = i.getAmount();
