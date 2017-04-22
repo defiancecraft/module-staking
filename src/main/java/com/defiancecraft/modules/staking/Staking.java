@@ -89,6 +89,32 @@ public class Staking extends JavaModule {
         StakingCommands cmds = new StakingCommands(manager);
         CommandRegistry.registerPlayerCommand(this, "stake", "defiancecraft.staking.stake", cmds::stake);
         CommandRegistry.registerPlayerCommand(this, "acceptstake", "defiancecraft.staking.accept", cmds::accept);
+        
+        // Setup cancellation listener
+        /*new BukkitRunnable() {
+			
+			@Override
+			public void run() {
+				
+				new CancellationDetector<PlayerTeleportEvent>(PlayerTeleportEvent.class).addListener(new CancelListener<PlayerTeleportEvent>() {
+
+					@Override
+					public void onCancelled(Plugin plugin, PlayerTeleportEvent event) {
+						
+						System.out.println(String.format("[Staking] Teleport for player '%s' from %s to %s was cancelled by plugin %s (class: %s).\n",
+							event.getPlayer().getName(),
+							event.getFrom().toString(),
+							event.getTo().toString(),
+							plugin.getName(),
+							plugin.getClass().getName()
+						));
+						
+					}
+				});
+				
+			}
+		}.runTaskLater(this, 100L);*/
+        
 
     }
     

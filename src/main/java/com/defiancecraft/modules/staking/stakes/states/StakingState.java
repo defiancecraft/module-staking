@@ -241,10 +241,44 @@ public class StakingState implements StakeState {
 		respawned = true;
 		Location spawn = Staking.getConfiguration().respawnPoint.toLocation();
 		
-		if (alpha != null && alpha.isOnline())
-			alpha.teleport(spawn);
-		if (beta != null && beta.isOnline())
-			beta.teleport(spawn);
+		if (alpha != null && alpha.isOnline()) {
+			if (!alpha.teleport(spawn)) {
+				new BukkitRunnable() {
+					
+					int times = 0;
+					
+					@Override
+					public void run() {
+						if (alpha == null || !alpha.isOnline() || alpha.teleport(spawn) || times++ == 4)
+							this.cancel();
+						else
+							System.out.println("Teleport failed for player " + (alpha == null ? "(NUL)" : alpha.getName()) + " - attempt #" + times);
+					}
+					
+				}.runTaskTimer(JavaPlugin.getPlugin(Staking.class), 0, 5L);
+			}
+		} else {
+			System.out.println(String.format("[Staking] ALPHA was not teleported (name: %s) -- they are [null: %s] [online: %s]", alpha == null ? "NULL" : alpha.getName(), alpha == null ? "YES" : "NO", alpha != null && alpha.isOnline() ? "YES" : "NO"));
+		}
+		if (beta != null && beta.isOnline()) {
+			if (!beta.teleport(spawn)) {
+				new BukkitRunnable() {
+					
+					int times = 0;
+					
+					@Override
+					public void run() {
+						if (beta == null || !beta.isOnline() || beta.teleport(spawn) || times++ == 4)
+							this.cancel();
+						else
+							System.out.println("Teleport failed for player " + (beta == null ? "(NUL)" : beta.getName()) + " - attempt #" + times);
+					}
+					
+				}.runTaskTimer(JavaPlugin.getPlugin(Staking.class), 0, 5L);
+			}
+		} else {
+			System.out.println(String.format("[Staking] BETA was not teleported (name: %s) -- they are [null: %s] [online: %s]", beta == null ? "NULL" : beta.getName(), beta == null ? "YES" : "NO", beta != null && beta.isOnline() ? "YES" : "NO"));
+		}
 		
 		// Give them the items that were staked by each other
 		winner.getInventory().addItem(pair.getAlphaStake().toArray(new ItemStack[]{}))
